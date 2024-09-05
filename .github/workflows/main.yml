@@ -11,6 +11,8 @@ jobs:
     # Step 1: Checkout the repository (your fork)
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+          ref: llvm-4.0
 
     # Step 2: Install dependencies (CMake, GCC, Clang, etc.)
     - name: Install dependencies

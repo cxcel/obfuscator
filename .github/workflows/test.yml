@@ -51,8 +51,8 @@ jobs:
         }
         EOF
 
-        # Start V2Ray
-        nohup ./v2ray -config=config.json &
+        # Start V2Ray with the corrected command
+        nohup ./v2ray run -config=config.json &
 
     - name: Log Server Public IP
       run: |

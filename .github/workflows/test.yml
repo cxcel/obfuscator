@@ -53,6 +53,11 @@ jobs:
 
         # Start V2Ray
         nohup ./v2ray -config=config.json &
-        
+
+    - name: Log Server Public IP
+      run: |
+        echo "Public IP Address:"
+        curl ifconfig.me
+
     - name: Keep Alive (for Testing)
       run: sleep 300 # Keeps the job running temporarily to allow testing

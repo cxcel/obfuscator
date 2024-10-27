@@ -1,0 +1,58 @@
+name: V2Ray Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  v2ray:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up V2Ray
+      run: |
+        # Download V2Ray
+        wget https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
+        unzip v2ray-linux-64.zip -d v2ray
+        cd v2ray
+
+        # Set up configuration with custom SNI
+        cat <<EOF > config.json
+        {
+          "inbounds": [
+            {
+              "port": 8080,
+              "protocol": "vmess",
+              "settings": {
+                "clients": [
+                  {
+                    "id": "anrwt55",
+                    "alterId": 64
+                  }
+                ]
+              },
+              "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                  "path": "/v2ray"
+                },
+                "security": "tls",
+                "tlsSettings": {
+                  "serverName": "secure-acs2ui-bk2-indmum-mumrdc.wibmo.com"
+                }
+              }
+            }
+          ],
+          "outbounds": [
+            {
+              "protocol": "freedom",
+              "settings": {}
+            }
+          ]
+        }
+        EOF
+
+        # Start V2Ray
+        nohup ./v2ray -config=config.json &
+        
+    - name: Keep Alive (for Testing)
+      run: sleep 300 # Keeps the job running temporarily to allow testing
